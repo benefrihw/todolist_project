@@ -222,6 +222,11 @@ app.patch("/todo-items/:id", (req, res) => {
   const modifyItemIdx = todoItems.findIndex((item) => item.id === +id);
   const selectedItem = todoItems[modifyItemIdx];
 
+  if (modifyItemIdx == -1) {
+    res.status(404).json({ message: "찾으시는 아이템이 없습니다." });
+    return;
+  }
+
   todoItems.splice(modifyItemIdx, 1, {
     ...selectedItem,
     doneAt: selectedItem.doneAt === null ? new Date() : null,
@@ -229,6 +234,26 @@ app.patch("/todo-items/:id", (req, res) => {
 
   res.send({ result: true, selectedItem });
   return;
+});
+
+app.delete("/todo-items/:id", (req, res) => {
+  /*
+  1. 아이템 id를 params로 받는다
+  2. splice로 삭제한다.
+  */
+
+  const { id } = req.params;
+
+  const deleteItemIdx = todoItems.findIndex((item) => item.id === +id);
+
+  if (deleteItemIdx == -1) {
+    res.status(404).json({ message: "찾으시는 아이템이 없습니다." });
+    return;
+  }
+
+  todoItems.splice(deleteItemIdx, 1);
+
+  res.send({ result: true });
 });
 
 app.listen(port, () => {
