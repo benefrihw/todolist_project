@@ -152,6 +152,20 @@ if ( !existingUser ) {
   return;
 }
 
+
+/** 내 정보 조회 API */
+app.get('/users/me/:id', (req, res) => {
+// id 값을 가져온다
+const { id } = req.params;
+
+// id가 일치하는 user를 찾는다
+const user = users.find((user) => user.id === +id);
+
+// user의 정보를 반환한다.
+res.status(200).json(user)
+return;
+} )
+=======
 // 성공 메세지 반환
 res.status(200).json({ message: "로그인 성공했습니다."});
 return;
