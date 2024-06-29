@@ -5,15 +5,18 @@
   "repository": "https://github.com/benefrihw/todolist_project.git",
   "author": "benefrihw <gjtja7@naver.com>",
   "license": "MIT",
-  "type":"module",
+  "type": "module",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "expres": "^0.0.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.2"
-  }, "scripts": {
+  },
+  "scripts": {
     "start": "node app.js",
-    "run": "nodemon app.js"
+    "dev": "nodemon app.js"
   }
 }
