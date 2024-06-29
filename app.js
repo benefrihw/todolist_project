@@ -1,6 +1,5 @@
 import cors from "cors";
 import express from "express";
-
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 
@@ -131,6 +130,28 @@ app.post("/sign-up", (req, res) => {
   // users에 추가하기
   users.push(newUser);
   
+// 할일 전체 목록 조회
+
+// todoItems 배열의 전체 객체를 출력한다.
+app.get ('/todo-items', (req,res) =>{
+    res.send({todoItems});
+});
+
+// todoItems 배열에서 지정한 id 를 가진 객체를 하나 출력한다.
+app.get('/todo-items/:id', (req,res)=>
+{
+  const {id} = req.params;
+  const selectedTodoItemById = todoItems.find((item) => item.id === Number(id));
+  res.send(selectedTodoItemById);
+})
+
+// todoItems 배열에서 지정한 title keyword 를 가진 객체를 모두 출력한다.
+app.get('/todo-items/search/:keyword',(req,res) =>{
+  const{keyword} = req.params;
+  const selectedTodoItemByKeyword = todoItems.filter((item) => item.title === keyword);
+  res.send(selectedTodoItemByKeyword);
+});
+
    // 완료 후 반환하기
   res.status(200).json({ message: "회원가입이 완료되었습니다." });
 });
