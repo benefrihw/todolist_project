@@ -3,11 +3,11 @@ import express from "express";
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 
-app.use(cors());
-app.use(express.json());
-
 const app = express();
 const port = 3000;
+
+app.use(cors());
+app.use(express.json());
 
 const users = [
     {
@@ -93,6 +93,18 @@ const users = [
     },
   ];
 
+/** 내 정보 조회 API */
+app.get('/users/me/:id', (req, res) => {
+// id 값을 가져온다
+const { id } = req.params;
+
+// id가 일치하는 user를 찾는다
+const user = users.find((user) => user.id === +id);
+
+// user의 정보를 반환한다.
+res.status(200).json(user)
+return;
+} )
 
 app.listen(port, () => {
   console.log(port, "포트로 연결되었습니다.");
