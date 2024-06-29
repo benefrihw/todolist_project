@@ -129,69 +129,71 @@ app.post("/sign-up", (req, res) => {
 
   // users에 추가하기
   users.push(newUser);
-  
-// 할일 전체 목록 조회
 
-// todoItems 배열의 전체 객체를 출력한다.
-app.get ('/todo-items', (req,res) =>{
-    res.send({todoItems});
-});
-
-// todoItems 배열에서 지정한 id 를 가진 객체를 하나 출력한다.
-app.get('/todo-items/:id', (req,res)=>
-{
-  const {id} = req.params;
-  const selectedTodoItemById = todoItems.find((item) => item.id === Number(id));
-  res.send(selectedTodoItemById);
-})
-
-// todoItems 배열에서 지정한 title keyword 를 가진 객체를 모두 출력한다.
-app.get('/todo-items/search/:keyword',(req,res) =>{
-  const{keyword} = req.params;
-  const selectedTodoItemByKeyword = todoItems.filter((item) => item.title === keyword);
-  res.send(selectedTodoItemByKeyword);
-});
-
-   // 완료 후 반환하기
+  // 완료 후 반환하기
   res.status(200).json({ message: "회원가입이 완료되었습니다." });
 });
 
 /** 로그인 API */
-app.post('/sign-in', (req, res) => {
-// email, password 가져오기
-const { email, password } = req.body;
+app.post("/sign-in", (req, res) => {
+  // email, password 가져오기
+  const { email, password } = req.body;
 
-// 모든 항목 입력 확인
-if ( !email || !password ) {
-res.status(400).json({ message: "모든 값을 입력해주세요."});
-return;
-}
+  // 모든 항목 입력 확인
+  if (!email || !password) {
+    res.status(400).json({ message: "모든 값을 입력해주세요." });
+    return;
+  }
 
-// email, 비밀번호 일치여부 확인하기
-const existingUser = users.find((user) => user.email === email && user.password === password);
-if ( !existingUser ) {
-  res.status(400).json({ message: "입력값이 올바르지 않습니다."});
-  return;
-}
-  
+  // email, 비밀번호 일치여부 확인하기
+  const existingUser = users.find(
+    (user) => user.email === email && user.password === password
+  );
+  if (!existingUser) {
+    res.status(400).json({ message: "입력값이 올바르지 않습니다." });
+    return;
+  }
+
   // 성공 메세지 반환
-res.status(200).json({ message: "로그인 성공했습니다."});
-return;
-})
-
+  res.status(200).json({ message: "로그인 성공했습니다." });
+  return;
+});
 
 /** 내 정보 조회 API */
-app.get('/users/me/:id', (req, res) => {
-// id 값을 가져온다
-const { id } = req.params;
+app.get("/users/me/:id", (req, res) => {
+  // id 값을 가져온다
+  const { id } = req.params;
 
-// id가 일치하는 user를 찾는다
-const user = users.find((user) => user.id === +id);
+  // id가 일치하는 user를 찾는다
+  const user = users.find((user) => user.id === +id);
 
-// user의 정보를 반환한다.
-res.status(200).json(user)
-return;
-} )
+  // user의 정보를 반환한다.
+  res.status(200).json(user);
+  return;
+});
+
+// 할일 전체 목록 조회
+
+// todoItems 배열의 전체 객체를 출력한다.
+app.get("/todo-items", (req, res) => {
+  res.send({ todoItems });
+});
+
+// todoItems 배열에서 지정한 id 를 가진 객체를 하나 출력한다.
+app.get("/todo-items/:id", (req, res) => {
+  const { id } = req.params;
+  const selectedTodoItemById = todoItems.find((item) => item.id === Number(id));
+  res.send(selectedTodoItemById);
+});
+
+// todoItems 배열에서 지정한 title keyword 를 가진 객체를 모두 출력한다.
+app.get("/todo-items/search/:keyword", (req, res) => {
+  const { keyword } = req.params;
+  const selectedTodoItemByKeyword = todoItems.filter(
+    (item) => item.title === keyword
+  );
+  res.send(selectedTodoItemByKeyword);
+});
 
 //할 일 생성 api
 app.post("/todo-items", (req, res) => {
