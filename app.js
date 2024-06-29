@@ -1,7 +1,8 @@
 import cors from "cors";
 import express from "express";
-import 'dotenv/config';
-import jwt from 'jsonwebtoken';
+
+import "dotenv/config";
+import jwt from "jsonwebtoken";
 
 const app = express();
 const port = 3000;
@@ -151,6 +152,11 @@ if ( !existingUser ) {
   res.status(400).json({ message: "입력값이 올바르지 않습니다."});
   return;
 }
+  
+  // 성공 메세지 반환
+res.status(200).json({ message: "로그인 성공했습니다."});
+return;
+})
 
 
 /** 내 정보 조회 API */
@@ -165,11 +171,42 @@ const user = users.find((user) => user.id === +id);
 res.status(200).json(user)
 return;
 } )
-=======
-// 성공 메세지 반환
-res.status(200).json({ message: "로그인 성공했습니다."});
-return;
-})
+
+//할 일 생성 api
+app.post("/todo-items", (req, res) => {
+  /*
+  1. 할 일을 생성하기 위해서는 body로 어떤 걸 받는지 알아와야 한다.
+  2. 생성된 할 일은 각자의 id를 부여받는다
+  3. todoItems arr 안으로 생성한 todoItem을 넣는다.(구.분.할)
+  */
+  const { title } = req.body;
+  const user = 1;
+
+  if (!title) {
+    res.status(401).json({ message: "할 일은 비워둘 수 없습니다." });
+    return;
+  }
+
+  const newTodoItem = {
+    /*
+    이 식의 의미 : todoItems arr의(todoItems[])
+    가장 마지막 index를 조회하고(todoItems[todoItems.length-1])
+    가장 마지막 index가 있다면 그 index의 id를 확인한 뒤에 1을 더하고(삼항연산자)
+    가장 마지막 index가 없다면 1을 아이템의 id로 설정해라
+    */
+    id: todoItems[todoItems.length - 1]
+      ? todoItems[todoItems.length - 1].id + 1
+      : 1,
+    userId: user,
+    title,
+    doneAt: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+  todoItems.push(newTodoItem);
+
+  res.send(newTodoItem);
+});
 
 app.listen(port, () => {
   console.log(port, "포트로 연결되었습니다.");
