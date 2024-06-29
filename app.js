@@ -206,6 +206,29 @@ app.post("/todo-items", (req, res) => {
   todoItems.push(newTodoItem);
 
   res.send(newTodoItem);
+  return;
+});
+
+app.patch("/todo-items/:id", (req, res) => {
+  /*
+  1. 할 일을 수정하려면, 어떤 아이템을 수정할 건지 id를 알아야 한다.
+  2. 여기서 할 수정은, doneAt가 null에서 현재 시간으로 바뀌는 것을 의미한다.
+  3. 만약 doneAt가 null이 아닌 상태에서 patch를 하면, 다시 null로 돌아와야 한다.
+  - 삼항연산자로 해볼까?
+  */
+
+  const { id } = req.params;
+
+  const modifyItemIdx = todoItems.findIndex((item) => item.id === +id);
+  const selectedItem = todoItems[modifyItemIdx];
+
+  todoItems.splice(modifyItemIdx, 1, {
+    ...selectedItem,
+    doneAt: selectedItem.doneAt === null ? new Date() : null,
+  });
+
+  res.send({ result: true, selectedItem });
+  return;
 });
 
 app.listen(port, () => {
