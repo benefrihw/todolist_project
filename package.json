@@ -1,0 +1,11 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/benefrihw/todolist_project.git",
+  "author": "benefrihw <gjtja7@naver.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
